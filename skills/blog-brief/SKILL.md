@@ -46,6 +46,9 @@ Gather from the user:
 
 If only a topic is given, infer the rest from context.
 
+If the request contains `--auto`, remove it from the topic and run in auto
+mode (no stop at the outline review in Step 5). Default is to stop.
+
 ### Step 2: Keyword Research
 
 Using WebSearch:
@@ -111,6 +114,37 @@ Find 8-12 statistics the article should include:
 6. Drop unverifiable statistics instead of carrying them as weak claims
 
 ### Step 5: Generate the Brief
+
+Build the outline first and get it reviewed before the full brief exists, so
+the saved brief always carries the approved outline. Create `briefs/[slug]/`
+in the user's project if it does not exist, or use a location they specify.
+
+1. **Outline v1.** Draft only the `## Content Outline` section of the format
+   below, ordered by the reader's decision sequence: section order, each
+   section's core answer, FAQ, and the framework the reader uses to decide.
+   Add one planning line each for where tables, case examples, and internal
+   links go (for example `**Table**: [what it compares]`). Plan only; do not
+   fill in table content.
+   Save it to `briefs/[slug]/outline-v1.md` with one line prepended:
+   `# Outline v1: [Title Suggestion]`.
+2. **Self-review, then stop.** Check v1 against four questions:
+   - Does every section match the search intent from Step 2?
+   - Is any key reader question missing, or covered twice?
+   - Can each section's evidence and information gain be delivered with the
+     Step 3 and Step 4 findings?
+   - Does it give the reader what they need first, or open with background
+     and delay the answer to the main question?
+
+   Append the answers to the end of `outline-v1.md` under `## Self-review`.
+   Show the user v1 and the answers, then stop and wait for their reply
+   (edits, or "pass"). In auto mode, do not wait; apply your own findings.
+3. **Outline v2.** Apply the user's edits and the review findings: merge
+   duplicate sections, add missing questions and their support, and finalize
+   the table, case example, and internal link lines. Keep the same format as
+   v1. Save it to `briefs/[slug]/outline-v2.md` with `# Outline v2: [Title Suggestion]`
+   prepended.
+4. **Full brief.** Generate the brief in the format below, using outline v2
+   verbatim as its `## Content Outline` section.
 
 Output format:
 
@@ -277,5 +311,8 @@ statistic for every section.
 
 ### Step 6: Save the Brief
 
-Save to the user's project as `briefs/[slug]-brief.md` or to a location
-they specify. Create the `briefs/` directory if it does not exist. Confirm the brief is ready for `/blog write`.
+Save the full brief from Step 5 as `briefs/[slug]/brief.md`. Save it last,
+after `outline-v2.md`; never write `brief.md` from an unreviewed outline.
+
+Confirm all three paths (`outline-v1.md`, `outline-v2.md`, `brief.md`) to the
+user and that the brief is ready for `/blog write`.

@@ -291,11 +291,11 @@ statistics research, visual element planning, and a structured outline.
 2. **Keyword research**: Primary keyword, 3-5 secondary, 3-5 questions
 3. **Competitive analysis**: Analyzes top 3-5 ranking pages
 4. **Statistics research**: Finds 8-12 stats with sources
-5. **Brief generation**: Complete brief with outline and recommendations
+5. **Brief generation**: Outline v1, self-review, pause for your edits (skip with `--auto`), outline v2, then the complete brief
 
 ### Output
 
-A detailed brief document saved to `briefs/[slug]-brief.md` containing:
+Three files under `briefs/[slug]/`, saved in this order: `outline-v1.md`, `outline-v2.md`, then `brief.md` (which uses outline v2). The brief contains:
 
 - Target keywords (primary, secondary, questions)
 - Search intent analysis
