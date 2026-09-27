@@ -41,23 +41,41 @@ For evidence-led keyword discovery, audience-avatar prompts, and content priorit
 Gather from the user:
 1. **Topic or keyword** (required)
 2. **Target audience** (who reads this?)
-3. **Search intent**: Informational, commercial, transactional, navigational
-4. **Business context**: What does the company do? What's the CTA?
+3. **Business context**: What does the company do? What's the CTA?
+
+Search intent comes from the live SERP in Step 2a, not from this intake.
 
 If only a topic is given, infer the rest from context.
 
 If the request contains `--auto`, remove it from the topic and run in auto
 mode (no stop at the outline review in Step 5). Default is to stop.
 
-### Step 2: Keyword Research
+### Step 2: Search Intent and Keyword Research
 
-Using WebSearch:
-1. Search for the target keyword; analyze what currently ranks
-2. Identify **primary keyword** (exact match target)
-3. Identify **3-5 secondary keywords** (related terms, long-tail)
-4. Identify **3-5 question queries** (People Also Ask style)
-5. Check AI Overviews, AI Mode where available, visible citation/source surfaces, featured snippets, and People Also Ask. Record cited publishers and answer formats when visible; mark surfaces as unavailable when not directly checked.
-6. Note the **search intent**: what do searchers actually want?
+Read `references/keyword-research.md` first. Do not read earlier research,
+run, or brief files in the project (`research/`, `runs/`, other `briefs/`
+folders); every run queries fresh data (K-014).
+
+**2a. Search intent from the live SERP.** Use DataForSEO, not WebSearch.
+1. Make the one SERP call in the reference file. If it still fails after one
+   retry, stop and tell the user; do not judge intent from WebSearch.
+2. Write `briefs/[slug]/serp-intent.md` in the reference file's format,
+   giving each organic result one page type.
+3. Run `python3 [this skill's directory]/scripts/count_serp_types.py briefs/[slug]/serp-intent.md`.
+   It fills the counts section and prints `DECISION: continue` or
+   `DECISION: stop`. Fix and rerun if it reports an error.
+4. On `stop`, stop even in auto mode. Show the user the count per page type
+   with one example URL each, and ask them to choose: write the blog anyway,
+   switch to another keyword (redo 2a with it), or end the brief here.
+5. Write the `## Intent conclusion` line. The brief's Search Intent section
+   must agree with it.
+
+**2b. Keywords.** Using WebSearch:
+1. Identify **primary keyword** (exact match target)
+2. Identify **3-5 secondary keywords** (related terms, long-tail)
+3. Identify **3-5 question queries**, starting from the People Also Ask
+   questions in `serp-intent.md`
+4. Check AI Mode where available, visible citation/source surfaces, and featured snippets. Record cited publishers and answer formats when visible; mark surfaces as unavailable when not directly checked.
 
 ### Step 2.5: Template Recommendation
 
@@ -162,7 +180,8 @@ Output format:
 
 ## Search Intent
 [Informational/Commercial/Transactional]: [1-2 sentence explanation of
-what the searcher wants]
+what the searcher wants, consistent with the Intent conclusion in serp-intent.md]
+**Core page type**: [from serp-intent.md, with the page type counts]
 
 ## Content Parameters
 - **Word count**: [2,000-2,500] words
@@ -314,5 +333,5 @@ statistic for every section.
 Save the full brief from Step 5 as `briefs/[slug]/brief.md`. Save it last,
 after `outline-v2.md`; never write `brief.md` from an unreviewed outline.
 
-Confirm all three paths (`outline-v1.md`, `outline-v2.md`, `brief.md`) to the
-user and that the brief is ready for `/blog write`.
+Confirm all four paths (`serp-intent.md`, `outline-v1.md`, `outline-v2.md`,
+`brief.md`) to the user and that the brief is ready for `/blog write`.
